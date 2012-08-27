@@ -10,6 +10,7 @@ class ChatQuery(object):
 		self.private = True if kwargs['channel'] == self.bot.settings['nickname'] else False
 		self.query = kwargs['message']
 		self.channel = kwargs['channel']
+		self.action = kwargs['action'] if 'action' in kwargs else False
 		
 		# check if the match is addressed
 		addressed_match = re.match(self.ADDRESSED_RE % self.bot.settings['nickname'], self.query)

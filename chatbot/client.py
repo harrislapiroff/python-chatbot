@@ -19,16 +19,19 @@ class IRCBot(irc.IRCClient):
 		for channel in self.channels:
 			self.join(channel)
 	
-	def privmsg(self, user, channel, message):
-		query = ChatQuery(user=user, channel=channel, message=message, bot=self)
+	def privmsg(self, user, channel, message, action=False):
+		query = ChatQuery(user=user, channel=channel, message=message, bot=self, action=action)
 		for feature in self.features:
 			if feature.handles_query(query):
 				response = feature.handle_query(query)
 				if response is not None:
 					self.msg(response.target, response.content)
-				# if the feature
+				# if the feature disallows continuation, stop here
 				if not feature.allow_continuation:
 					break
+
+	def action(self, user, channel, data):
+		self.privmsg(user, channel, data, action=True)
 
 class IRCBotFactory(protocol.ClientFactory):
 	protocol = IRCBot
