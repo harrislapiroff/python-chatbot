@@ -26,7 +26,11 @@ bot = Bot({
 	'port': 6665,
 	'server_password': 'my_bots_password',
 	'channels': ('#freenode', '#python'),
-	'features': ('chatbot.contrib.pypi.PyPIFeature',)
+	'features': (
+		'chatbot.contrib.urls.PyPIFeature',
+		'chatbot.contrib.urls.WikipediaFeature',
+		'chatbot.contrib.urls.DictionaryFeature',
+	)
 })
 
 bot.run()

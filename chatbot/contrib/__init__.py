@@ -1,1 +1,0 @@
-from chatbot.contrib.pypi import *
