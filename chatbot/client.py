@@ -20,12 +20,17 @@ class IRCBot(irc.IRCClient):
 			self.join(channel)
 	
 	def privmsg(self, user, channel, message, action=False):
+		"Upon receiving a message, handle it with the bot's feature set."
 		query = ChatQuery(user=user, channel=channel, message=message, bot=self, action=action)
 		for feature in self.features:
 			if feature.handles_query(query):
 				response = feature.handle_query(query)
 				if response is not None:
-					self.msg(response.target, response.content)
+					# Send either an action or a message.
+					if response.action:
+						self.me(response.target, response.content)
+					else:
+						self.msg(response.target, response.content)
 				# if the feature disallows continuation, stop here
 				if not feature.allow_continuation:
 					break
