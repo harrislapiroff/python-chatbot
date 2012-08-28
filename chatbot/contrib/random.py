@@ -27,8 +27,6 @@ class DiceFeature(object):
 			return True
 	
 	def handle_query(self, query):
-		target = query.user['raw'] if query.private else query.channel
-
 		bits = re.match(self.match_re, query.query)
 		dice_count = int(bits.group(1))
 		dice_sides = int(bits.group(2))
@@ -51,7 +49,7 @@ class DiceFeature(object):
 		if len(response_content) > query.bot.settings['message_max_length']:
 			response_content = "%s rolled %sd%s for a total of %d" % (query.nickname, dice_count, dice_sides, results_sum)
 		
-		return ChatResponse(response_content, target=target)
+		return ChatResponse(response_content)
 
 class ChoiceFeature(object):
 	allow_continuation = False
@@ -62,9 +60,7 @@ class ChoiceFeature(object):
 			return True
 	
 	def handle_query(self, query):
-		target = query.user['raw'] if query.private else query.channel
-		
 		bits = re.match(self.match_re, query.query)
 		choice = random.randint(1,2)
 		
-		return ChatResponse(bits.group(choice), target=target)
+		return ChatResponse(bits.group(choice))

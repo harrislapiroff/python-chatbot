@@ -10,6 +10,5 @@ class SlapbackFeature(object):
 			return True
 	
 	def handle_query(self, query):
-		target = query.user['raw'] if query.private else query.channel
 		match = re.match(self.match_re % query.bot.nickname, query.query)
-		return ChatResponse("slaps %s%s" % (query.nickname, match.group(1)), target=target, action=True)
+		return ChatResponse("slaps %s%s" % (query.nickname, match.group(1)), action=True)

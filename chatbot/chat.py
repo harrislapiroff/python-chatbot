@@ -21,10 +21,11 @@ class ChatQuery(object):
 			self.addressed = False
 
 class ChatResponse(object):
-	
+
 	def __init__(self, content, **kwargs):
 		self.content = content
-		self.target = kwargs['target']
+		if 'target' in kwargs:
+			self.target = kwargs['target']
 		self.action = kwargs['action'] if 'action' in kwargs else False
 	
 	def __str__(self):

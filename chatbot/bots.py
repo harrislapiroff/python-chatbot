@@ -3,7 +3,7 @@ from chatbot.client import IRCBotFactory
 from chatbot.settings import default_settings
 
 class Bot(object):
-	def __init__(self, settings):
+	def __init__(self, **settings):
 		self.settings = default_settings.copy()
 		self.settings.update(settings)
 

@@ -15,7 +15,6 @@ class BaseURLFeature(object):
 			return True
 	
 	def handle_query(self, query):
-		target = query.user['raw'] if query.private else query.channel
 		search_results = re.findall(self.request_re, query.query)
 		response_content = ""
 		for keyword in search_results:
@@ -24,7 +23,7 @@ class BaseURLFeature(object):
 				response_content = response_content + url + "\n"
 			else:
 				response_content = response_content + "URL not found for %s" % keyword + "\n"
-		return ChatResponse(response_content, target=target)
+		return ChatResponse(response_content)
 	
 	def get_url(self, keyword):
 		"Returns either a URL associated with the keyword, or false if error."

@@ -24,14 +24,17 @@ class IRCBot(irc.IRCClient):
 		query = ChatQuery(user=user, channel=channel, message=message, bot=self, action=action)
 		for feature in self.features:
 			if feature.handles_query(query):
+				default_target = query.user['raw'] if query.private else query.channel
 				response = feature.handle_query(query)
 				if response is not None:
+					# if a target it attached to the response, use it
+					target = getattr(response, 'target', default_target)
 					# Send either an action or a message.
 					if response.action:
-						self.me(response.target, response.content)
+						self.me(target, response.content)
 					else:
-						self.msg(response.target, response.content)
-				# if the feature disallows continuation, stop here
+						self.msg(target, response.content)
+				# if the feature disallows continuation, stop iterating over features here
 				if not feature.allow_continuation:
 					break
 
