@@ -45,6 +45,13 @@ class PyPIFeature(BaseURLFeature):
 class WikipediaFeature(BaseURLFeature):
 	request_re = r"wiki:([\w\-_]*)"
 	url_format = r"http://en.wikipedia.org/wiki/%s"
+	
+	def get_url(self, keyword):
+		"""
+		Wikipedia blocks bots from requesting URLs, so this just returns the
+		url without checking it.
+		"""
+		return self.url_format % keyword
 
 
 class DictionaryFeature(BaseURLFeature):
