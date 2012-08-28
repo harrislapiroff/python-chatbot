@@ -29,7 +29,7 @@ class IRCBot(irc.IRCClient):
 					target = getattr(response, 'target', default_target)
 					# Send either an action or a message.
 					if response.action:
-						self.me(target, response.content)
+						self.describe(target, response.content)
 					else:
 						self.msg(target, response.content)
 				# if the feature disallows continuation, stop iterating over features here
