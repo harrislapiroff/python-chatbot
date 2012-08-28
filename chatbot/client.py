@@ -1,7 +1,6 @@
 from twisted.words.protocols import irc
 from twisted.internet import protocol
 from chatbot.chat import ChatQuery, ChatResponse
-from chatbot.utils import import_class
 
 class IRCBot(irc.IRCClient):
 	
@@ -12,8 +11,7 @@ class IRCBot(irc.IRCClient):
 		self.channels = self.settings['channels']
 		self.password = settings['server_password']
 		for feature in self.settings['features']:
-			feature_class = import_class(feature)
-			self.features.append(feature_class())
+			self.features.append(feature)
 	
 	def signedOn(self):
 		for channel in self.channels:

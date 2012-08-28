@@ -19,6 +19,7 @@ To run a bot, you must write a short python script. For example `simple_bot.py`:
 
 ```python
 from chatbot.bots import Bot
+from chatbot.contrib import *
 
 bot = Bot(
 	nickname = 'bestbot',
@@ -27,12 +28,12 @@ bot = Bot(
 	server_password = 'my_bots_password',
 	channels = ('#freenode', '#python'),
 	features = (
-		'chatbot.contrib.urls.PyPIFeature',
-		'chatbot.contrib.urls.WikipediaFeature',
-		'chatbot.contrib.urls.DictionaryFeature',
-		'chatbot.contrib.random.DiceFeature',
-		'chatbot.contrib.random.ChoiceFeature',
-		'chatbot.contrib.humor.SlapbackFeature',
+		PyPIFeature(),
+		WikipediaFeature(),
+		DictionaryFeature(),
+		DiceFeature(),
+		ChoiceFeature(),
+		SlapbackFeature(),
 	)
 )
 
