@@ -2,8 +2,9 @@ from __future__ import absolute_import
 import re
 import random
 from chatbot.chat import ChatResponse
+from chatbot.contrib.base import Feature
 
-class DiceFeature(object):
+class DiceFeature(Feature):
 	"""
 	Rolls dice and responds with the results.
 	
@@ -19,7 +20,6 @@ class DiceFeature(object):
 		Rolls six six-sided dice and subtracts 4 from each result.
 	
 	"""
-	allow_continuation = False
 	match_re = r"rolls ([0-9]+)d([0-9]+)[\s]*([\+\-]?)[\s]*([0-9]*)"
 	
 	def handles_query(self, query):
@@ -51,8 +51,8 @@ class DiceFeature(object):
 		
 		return ChatResponse(response_content)
 
-class ChoiceFeature(object):
-	allow_continuation = False
+class ChoiceFeature(Feature):
+	addressing_required = True
 	match_re = r"(.*) or ([^?]*)\??"
 	
 	def handles_query(self, query):

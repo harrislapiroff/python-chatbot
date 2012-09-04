@@ -1,9 +1,9 @@
 import re
 import urllib2
 from chatbot.chat import ChatResponse
+from chatbot.contrib.base import Feature
 
-
-class BaseURLFeature(object):
+class BaseURLFeature(Feature):
 	allow_continuation = True
 	
 	def __init__(self):

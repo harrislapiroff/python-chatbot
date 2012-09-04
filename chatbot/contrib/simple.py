@@ -3,8 +3,9 @@ import re
 import random
 from copy import copy
 from chatbot.chat import ChatResponse
+from chatbot.contrib.base import Feature
 
-class Match(object):
+class Match(Feature):
 	
 	def __init__(self, match_re, response, allow_continuation=True, addressing_required=False):
 		"""
@@ -25,9 +26,6 @@ class Match(object):
 		self.addressing_required = addressing_required
 	
 	def handles_query(self, query):
-		# If addressing is required, but the query is not addressed, stop.
-		if self.addressing_required and not query.addressed:
-			return
 		# If the query matches the regular expression, return True.
 		if re.match(self.match_re, query.query):
 			return True

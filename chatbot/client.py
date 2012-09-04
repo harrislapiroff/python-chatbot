@@ -21,6 +21,9 @@ class IRCBot(irc.IRCClient):
 		"Upon receiving a message, handle it with the bot's feature set."
 		query = ChatQuery(user=user, channel=channel, message=message, bot=self, action=action)
 		for feature in self.features:
+			# If they query is unaddressed and addressing is required, move to the next feature
+			if feature.addressing_required and not query.addressed:
+				continue
 			if feature.handles_query(query):
 				default_target = query.user['raw'] if query.private else query.channel
 				response = feature.handle_query(query)

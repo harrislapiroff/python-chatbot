@@ -1,8 +1,8 @@
 import re
 from chatbot.chat import ChatResponse
+from chatbot.contrib.base import Feature
 
-class SlapbackFeature(object):
-	allow_continuation = False
+class SlapbackFeature(Feature):
 	match_re = r"slaps %s(.*)"
 	
 	def handles_query(self, query):
