@@ -1,6 +1,9 @@
 from twisted.internet import reactor
+
+from chatbot.db import Base
 from chatbot.client import IRCBotFactory
 from chatbot.settings import default_settings
+
 from sqlalchemy import create_engine
 
 class Bot(object):
@@ -15,11 +18,13 @@ class Bot(object):
 		self.settings = default_settings.copy()
 		self.settings.update(settings)
 		
-		# instantiate the database engine
 		if 'database' in self.settings:
+			# Instantiate the database engine
 			self.database = create_engine(self.settings['database'])
+			# Create any tables that have not been created.
+			Base.metadata.create_all(self.database)
 
 	def run(self):
-		factory = IRCBotFactory(self.settings)
+		factory = IRCBotFactory(self.settings, bot=self)
 		reactor.connectTCP(self.settings['hostname'], self.settings['port'], factory)
 		reactor.run()

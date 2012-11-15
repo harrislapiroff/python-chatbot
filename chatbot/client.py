@@ -4,12 +4,13 @@ from chatbot.chat import ChatQuery, ChatResponse
 
 class IRCBot(irc.IRCClient):
 	
-	def __init__(self, settings=None, *args, **kwargs):
+	def __init__(self, settings=None, bot=None, *args, **kwargs):
 		self.settings = settings
 		self.features = []
 		self.nickname = self.settings['nickname']
 		self.channels = self.settings['channels']
 		self.password = settings['server_password']
+		self.bot = bot
 		for feature in self.settings['features']:
 			self.features.append(feature)
 	
@@ -19,7 +20,7 @@ class IRCBot(irc.IRCClient):
 	
 	def privmsg(self, user, channel, message, action=False):
 		"Upon receiving a message, handle it with the bot's feature set."
-		query = ChatQuery(user=user, channel=channel, message=message, bot=self, action=action)
+		query = ChatQuery(user=user, channel=channel, message=message, bot=self.bot, client=self, action=action)
 		for feature in self.features:
 			# If they query is unaddressed and addressing is required, move to the next feature
 			if feature.addressing_required and not query.addressed:
@@ -45,15 +46,16 @@ class IRCBot(irc.IRCClient):
 class IRCBotFactory(protocol.ClientFactory):
 	protocol = IRCBot
 	
-	def __init__(self, settings=None, *args, **kwargs):
+	def __init__(self, settings=None, bot=None, *args, **kwargs):
 		self.settings = settings
+		self.bot = bot
 	
 	def clientConnectionLost(self, connector, reason):
 		"If disconnected, reconnect."
 		connector.connect()
 	
 	def buildProtocol(self, addr):
-		bot = self.protocol(self.settings)
+		bot = self.protocol(self.settings, bot=self.bot)
 		bot.factory = self
 		return bot
 		

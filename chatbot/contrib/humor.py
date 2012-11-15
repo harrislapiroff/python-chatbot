@@ -6,9 +6,9 @@ class SlapbackFeature(Feature):
 	match_re = r"slaps %s(.*)"
 	
 	def handles_query(self, query):
-		if re.match(self.match_re % query.bot.nickname, query.query):
+		if re.match(self.match_re % query.client.nickname, query.query):
 			return True
 	
 	def handle_query(self, query):
-		match = re.match(self.match_re % query.bot.nickname, query.query)
+		match = re.match(self.match_re % query.client.nickname, query.query)
 		return ChatResponse("slaps %s back%s" % (query.nickname, match.group(1)), action=True)

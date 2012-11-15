@@ -81,3 +81,18 @@ bot.run()
 ```
 
 In this case, the bot handles two possible matches. The first pattern matches sentences such as `bestbot: slap melinath with a frying pan` by responding with an action, `slaps melinath around a bit with a frying pan`. The second pattern matches commands to slap that do not specify the method of slapping (e.g., `slap melinath`), by choosing an option randomly from `SLAP_OPTIONS` (e.g., `slaps melinath around a bit with a french fry`).
+
+Using a Database
+----------------
+
+Some of Chatbot's features require a database. To use a database, pass in a database keyword argument when instantiating your bot:
+
+```python
+bot = Bot(
+	nickname = 'bestbot',
+	hostname = 'chat.freenode.net',
+	port = 6665,
+	database = 'sqlite:///:memory:',
+	# ...
+)
+```
