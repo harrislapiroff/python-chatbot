@@ -9,7 +9,7 @@ Installation
 With Pip:
 
 ```bash
-pip install git+https://github.com/lapilofu/python-chatbot.git@master#egg=chatbot
+sudo pip install git+https://github.com/harrislapiroff/python-chatbot.git@master#egg=chatbot
 ```
 
 Usage
